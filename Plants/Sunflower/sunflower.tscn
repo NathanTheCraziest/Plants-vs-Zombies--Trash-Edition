@@ -1,0 +1,112 @@
+[gd_scene load_steps=10 format=3 uid="uid://bd8gb8sf4a1gr"]
+
+[ext_resource type="Texture2D" uid="uid://b7jr0hfx11tkg" path="res://Plants/plants.png" id="1_edfnl"]
+[ext_resource type="Script" path="res://Plants/Sunflower/sunflower.gd" id="1_ohfqn"]
+[ext_resource type="Shader" path="res://hitflash.gdshader" id="2_ms4t4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0t3mu"]
+resource_local_to_scene = true
+shader = ExtResource("2_ms4t4")
+shader_parameter/active = false
+
+[sub_resource type="Animation" id="Animation_fvvyr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vsrfd"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.03333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 0.9), Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_6q75b"]
+resource_name = "spawn_sun"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.2, 0.8), Vector2(0.9, 1.1), Vector2(1, 1)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"spawn_random_sun"
+}, {
+"args": [],
+"method": &"idle_anim"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2vh25"]
+_data = {
+"RESET": SubResource("Animation_fvvyr"),
+"idle": SubResource("Animation_vsrfd"),
+"spawn_sun": SubResource("Animation_6q75b")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pjgks"]
+size = Vector2(88, 102)
+
+[node name="Sunflower" type="StaticBody2D"]
+script = ExtResource("1_ohfqn")
+health = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_0t3mu")
+position = Vector2(0, 37)
+texture = ExtResource("1_edfnl")
+offset = Vector2(0, -41)
+region_enabled = true
+region_rect = Rect2(117, 4, 103, 114)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_2vh25")
+}
+autoplay = "idle"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_pjgks")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

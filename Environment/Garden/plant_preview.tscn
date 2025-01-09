@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd8krdwe1qu6y"]
+
+[ext_resource type="Script" path="res://Environment/Garden/plant_preview.gd" id="1_5tfll"]
+[ext_resource type="Texture2D" uid="uid://bs4sa2uudjmxi" path="res://Plants/white.png" id="2_8t271"]
+
+[node name="PlantPreview" type="Node2D"]
+z_index = 2
+script = ExtResource("1_5tfll")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.403922)
+texture = ExtResource("2_8t271")
+region_enabled = true
+region_rect = Rect2(83, 188, 128, 128)

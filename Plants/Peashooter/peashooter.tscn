@@ -1,0 +1,132 @@
+[gd_scene load_steps=10 format=3 uid="uid://btfl2qwauocyx"]
+
+[ext_resource type="Shader" path="res://hitflash.gdshader" id="1_fg485"]
+[ext_resource type="Script" path="res://Plants/Peashooter/peashooter.gd" id="1_fu8jb"]
+[ext_resource type="Texture2D" uid="uid://b7jr0hfx11tkg" path="res://Plants/plants.png" id="1_jbk0f"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7nog5"]
+resource_local_to_scene = true
+shader = ExtResource("1_fg485")
+shader_parameter/active = false
+
+[sub_resource type="Animation" id="Animation_pwml3"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:skew")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_uyi35"]
+resource_name = "idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.9)]
+}
+
+[sub_resource type="Animation" id="Animation_qimsc"]
+resource_name = "shoot"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0666667, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [-0.0855211, -0.174533, 0.174533, -0.0855211]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"shoot_pea"
+}, {
+"args": [],
+"method": &"idle"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kkpy8"]
+_data = {
+"RESET": SubResource("Animation_pwml3"),
+"idle": SubResource("Animation_uyi35"),
+"shoot": SubResource("Animation_qimsc")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ro37q"]
+size = Vector2(88, 102)
+
+[node name="Peashooter" type="StaticBody2D"]
+script = ExtResource("1_fu8jb")
+health = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_7nog5")
+position = Vector2(0, 35)
+texture = ExtResource("1_jbk0f")
+offset = Vector2(0, -30)
+region_enabled = true
+region_rect = Rect2(4, 17, 102, 95)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_kkpy8")
+}
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ro37q")
+
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(1, 0)
+target_position = Vector2(1100, 0)
+hit_from_inside = true
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="ShootTimer" type="Timer" parent="."]
+
+[node name="ShootPoint" type="Node2D" parent="."]
+position = Vector2(49, -7)
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]

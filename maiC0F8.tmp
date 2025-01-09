@@ -1,0 +1,394 @@
+[gd_scene load_steps=24 format=4 uid="uid://dy02eo6itasq"]
+
+[ext_resource type="Script" path="res://Environment/Sun/sun_spawner.gd" id="1_hn5cv"]
+[ext_resource type="Script" path="res://Environment/Garden/board.gd" id="3_45wqv"]
+[ext_resource type="Texture2D" uid="uid://5p22ws4yvcoi" path="res://Environment/Sun/ground_tiles.png" id="3_k2o7c"]
+[ext_resource type="Texture2D" uid="uid://ccej06kgglm72" path="res://Plants/slotbg.png" id="4_0hasm"]
+[ext_resource type="Script" path="res://plant_selector.gd" id="4_2c0aw"]
+[ext_resource type="PackedScene" uid="uid://cd8krdwe1qu6y" path="res://Environment/Garden/plant_preview.tscn" id="4_7awl7"]
+[ext_resource type="Texture2D" uid="uid://blwsx5qgwfdeb" path="res://Plants/Sunflower/sunflower.tres" id="4_8sfcx"]
+[ext_resource type="Texture2D" uid="uid://cmai6eeiw6cm3" path="res://Plants/empty_panel.png" id="5_bfvor"]
+[ext_resource type="Texture2D" uid="uid://b70julhmokwee" path="res://Plants/Peashooter/peashooter.tres" id="5_p1i0g"]
+[ext_resource type="Texture2D" uid="uid://begtf1k1bbyjj" path="res://Plants/Wallnut/wallnut.tres" id="6_cs81n"]
+[ext_resource type="Script" path="res://UI/sun_counter.gd" id="6_gdx0s"]
+[ext_resource type="Texture2D" uid="uid://b6dsrvr6iu5r6" path="res://Plants/slotfg.png" id="6_k1iqn"]
+[ext_resource type="Texture2D" uid="uid://chkukya5no65b" path="res://Environment/Sun/sun.tres" id="6_rxe1d"]
+[ext_resource type="Texture2D" uid="uid://cri5ytup40527" path="res://Plants/PotatoMine/potato_mine.tres" id="7_m5dib"]
+[ext_resource type="Shader" path="res://desaturation.gdshader" id="7_pmxso"]
+[ext_resource type="Texture2D" uid="uid://dre7ojudmr6od" path="res://Plants/selector.png" id="10_egyf0"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_te3gi"]
+texture = ExtResource("3_k2o7c")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+1:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_bma35"]
+tile_size = Vector2i(128, 128)
+sources/1 = SubResource("TileSetAtlasSource_te3gi")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k1bht"]
+texture = ExtResource("5_bfvor")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yxd0q"]
+resource_local_to_scene = true
+shader = ExtResource("7_pmxso")
+shader_parameter/saturation = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4tma5"]
+resource_local_to_scene = true
+shader = ExtResource("7_pmxso")
+shader_parameter/saturation = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_k8qxg"]
+resource_local_to_scene = true
+shader = ExtResource("7_pmxso")
+shader_parameter/saturation = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_4i0mr"]
+resource_local_to_scene = true
+shader = ExtResource("7_pmxso")
+shader_parameter/saturation = 1.0
+
+[node name="Main" type="Node2D"]
+
+[node name="SunSpawner" type="Node2D" parent="."]
+position = Vector2(0, -550)
+script = ExtResource("1_hn5cv")
+
+[node name="Timer" type="Timer" parent="SunSpawner"]
+wait_time = 5.0
+autostart = true
+
+[node name="MinPos" type="Node2D" parent="SunSpawner"]
+position = Vector2(-558, 0)
+
+[node name="MaxPos" type="Node2D" parent="SunSpawner"]
+position = Vector2(517, 0)
+
+[node name="MinFall" type="Node2D" parent="SunSpawner"]
+position = Vector2(0, 293)
+
+[node name="MaxFall" type="Node2D" parent="SunSpawner"]
+position = Vector2(1, 827)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(-25, -68)
+zoom = Vector2(0.9, 0.9)
+
+[node name="Board" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+position = Vector2(-601, -318)
+tile_map_data = PackedByteArray("AAAAAAIAAQAAAAAAAAABAAIAAQABAAAAAAACAAIAAQAAAAAAAAAAAAEAAQAAAAEAAAABAAEAAQABAAEAAAAAAAAAAQAAAAAAAAABAAAAAQABAAAAAAACAAEAAQAAAAEAAAADAAEAAQABAAEAAAADAAIAAQABAAAAAAACAAAAAQAAAAAAAAADAAAAAQABAAAAAAAEAAAAAQAAAAAAAAAEAAEAAQAAAAEAAAAEAAIAAQAAAAAAAAAAAAMAAQAAAAEAAAAAAAQAAQAAAAAAAAABAAMAAQABAAEAAAABAAQAAQABAAAAAAACAAMAAQAAAAEAAAACAAQAAQAAAAAAAAADAAMAAQABAAEAAAADAAQAAQABAAAAAAAEAAMAAQAAAAEAAAAEAAQAAQAAAAAAAAAFAAMAAQABAAEAAAAFAAQAAQABAAAAAAAGAAMAAQAAAAEAAAAGAAQAAQAAAAAAAAAHAAMAAQABAAEAAAAHAAQAAQABAAAAAAAFAAEAAQABAAEAAAAFAAIAAQABAAAAAAAGAAEAAQAAAAEAAAAGAAIAAQAAAAAAAAAHAAEAAQABAAEAAAAHAAIAAQABAAAAAAAFAAAAAQABAAAAAAAGAAAAAQAAAAAAAAAHAAAAAQABAAAAAAAIAAAAAQAAAAAAAAAIAAEAAQAAAAEAAAAIAAIAAQAAAAAAAAAIAAMAAQAAAAEAAAAIAAQAAQAAAAAAAAA=")
+tile_set = SubResource("TileSet_bma35")
+script = ExtResource("3_45wqv")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlantSelector" type="HBoxContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+offset_left = 7.0
+offset_top = 7.0
+offset_right = 473.0
+offset_bottom = 97.0
+script = ExtResource("4_2c0aw")
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PlantSelector"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_k1bht")
+script = ExtResource("6_gdx0s")
+
+[node name="Control" type="Control" parent="CanvasLayer/PlantSelector/PanelContainer"]
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/PlantSelector/PanelContainer/Control"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+offset_top = 61.0
+offset_right = 90.0
+offset_bottom = 84.0
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PlantSelector/PanelContainer/Control/Label"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -67.0
+offset_right = 68.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("6_rxe1d")
+
+[node name="Sunflower" type="Button" parent="CanvasLayer/PlantSelector"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+text = "
+"
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/PlantSelector/Sunflower"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 452.0
+offset_bottom = 453.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("4_0hasm")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PlantSelector/Sunflower"]
+material = SubResource("ShaderMaterial_yxd0q")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -35.0
+offset_top = -44.0
+offset_right = 68.0
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("4_8sfcx")
+
+[node name="Foreground" type="TextureRect" parent="CanvasLayer/PlantSelector/Sunflower"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 452.0
+offset_bottom = 453.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("6_k1iqn")
+
+[node name="Label" type="Label" parent="CanvasLayer/PlantSelector/Sunflower"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Peashooter" type="Button" parent="CanvasLayer/PlantSelector"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/PlantSelector/Peashooter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 452.0
+offset_bottom = 453.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("4_0hasm")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PlantSelector/Peashooter"]
+material = SubResource("ShaderMaterial_4tma5")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -37.0
+offset_top = -35.0
+offset_right = 65.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("5_p1i0g")
+
+[node name="Foreground" type="TextureRect" parent="CanvasLayer/PlantSelector/Peashooter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 452.0
+offset_bottom = 453.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("6_k1iqn")
+
+[node name="Label" type="Label" parent="CanvasLayer/PlantSelector/Peashooter"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "100"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Wallnut" type="Button" parent="CanvasLayer/PlantSelector"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/PlantSelector/Wallnut"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 452.0
+offset_bottom = 453.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("4_0hasm")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PlantSelector/Wallnut"]
+material = SubResource("ShaderMaterial_k8qxg")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -31.0
+offset_top = -41.0
+offset_right = 55.0
+offset_bottom = 69.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("6_cs81n")
+
+[node name="Foreground" type="TextureRect" parent="CanvasLayer/PlantSelector/Wallnut"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 452.0
+offset_bottom = 453.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("6_k1iqn")
+
+[node name="Label" type="Label" parent="CanvasLayer/PlantSelector/Wallnut"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "50"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="PotatoMine" type="Button" parent="CanvasLayer/PlantSelector"]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(90, 90)
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/PlantSelector/PotatoMine"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 452.0
+offset_bottom = 453.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("4_0hasm")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/PlantSelector/PotatoMine"]
+material = SubResource("ShaderMaterial_4i0mr")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -36.0
+offset_top = -38.0
+offset_right = 69.0
+offset_bottom = 59.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("7_m5dib")
+
+[node name="Foreground" type="TextureRect" parent="CanvasLayer/PlantSelector/PotatoMine"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 452.0
+offset_bottom = 453.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("6_k1iqn")
+
+[node name="Label" type="Label" parent="CanvasLayer/PlantSelector/PotatoMine"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "25"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Selector" type="TextureRect" parent="CanvasLayer"]
+visible = false
+modulate = Color(1, 1, 0.458824, 1)
+offset_left = 101.0
+offset_top = 7.0
+offset_right = 643.0
+offset_bottom = 550.0
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("10_egyf0")
+
+[node name="PlantPreview" parent="." instance=ExtResource("4_7awl7")]
+visible = false
+position = Vector2(-65, -62)
+
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(-664, -406)
+
+[connection signal="timeout" from="SunSpawner/Timer" to="SunSpawner" method="_on_timer_timeout"]
+[connection signal="button_down" from="CanvasLayer/PlantSelector/Sunflower" to="CanvasLayer/PlantSelector" method="_on_sunflower_button_down"]
+[connection signal="button_down" from="CanvasLayer/PlantSelector/Peashooter" to="CanvasLayer/PlantSelector" method="_on_peashooter_button_down"]
+[connection signal="button_down" from="CanvasLayer/PlantSelector/Wallnut" to="CanvasLayer/PlantSelector" method="_on_wallnut_button_down"]
+[connection signal="button_down" from="CanvasLayer/PlantSelector/PotatoMine" to="CanvasLayer/PlantSelector" method="_on_potato_mine_button_down"]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7nyrt88nwbxw"]
+
+[ext_resource type="Script" path="res://Environment/Garden/plantable.gd" id="1_ai01m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o7jid"]
+size = Vector2(62, 62)
+
+[node name="Plantable" type="Area2D"]
+position = Vector2(0, -22)
+script = ExtResource("1_ai01m")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_o7jid")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

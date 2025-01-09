@@ -1,0 +1,72 @@
+[gd_scene load_steps=9 format=3 uid="uid://bgb847r0ckxu2"]
+
+[ext_resource type="Texture2D" uid="uid://b7jr0hfx11tkg" path="res://Plants/plants.png" id="1_7wxj8"]
+[ext_resource type="Shader" path="res://hitflash.gdshader" id="1_tguhu"]
+[ext_resource type="Script" path="res://Plants/Wallnut/wallnut.gd" id="1_x8k4x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ia6ce"]
+resource_local_to_scene = true
+shader = ExtResource("1_tguhu")
+shader_parameter/active = false
+
+[sub_resource type="Animation" id="Animation_iyp2q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_perun"]
+resource_name = "idle"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, 0.95)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_knbk4"]
+_data = {
+"RESET": SubResource("Animation_iyp2q"),
+"idle": SubResource("Animation_perun")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5wv3k"]
+size = Vector2(88, 102)
+
+[node name="Wallnut" type="StaticBody2D"]
+script = ExtResource("1_x8k4x")
+health = 30
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_ia6ce")
+position = Vector2(0, 30)
+texture = ExtResource("1_7wxj8")
+offset = Vector2(0, -34)
+region_enabled = true
+region_rect = Rect2(226, 10, 86, 110)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_knbk4")
+}
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5wv3k")

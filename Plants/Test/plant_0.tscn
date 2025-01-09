@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://du6a3g5pn4ae2"]
+
+[ext_resource type="Texture2D" uid="uid://b7jr0hfx11tkg" path="res://Plants/plants.png" id="1_l2ylp"]
+[ext_resource type="Script" path="res://Plants/plant.gd" id="1_vkqtg"]
+
+[node name="Plant0" type="Node2D"]
+script = ExtResource("1_vkqtg")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_l2ylp")
+region_enabled = true
+region_rect = Rect2(4, 17, 102, 95)
